@@ -6,7 +6,7 @@ import { bindExpression } from '@babel/types';
 
 interface Services { serviceDescription: String, nameOfService: String };
 interface ServicesType extends Array<Services> { };
-interface RawData { json: () => Response<ServicesType> | Promise<Bios> };
+interface RawData { json: () => any };
 interface Bio { nameOfEmployee: String, bioInformation: String };
 interface Bios extends Array<Bio> { };
 
