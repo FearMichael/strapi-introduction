@@ -31,3 +31,28 @@
     transform: rotate(360deg);
   }
 }
+
+.siteTitle {
+  /* background-color: blue; */
+  /* padding: 0.5em 0; */
+  color: gray;
+  position: fixed;
+};
+
+.headerOverlay {
+  position: absolute
+}
+
+/* .siteHeader {
+  background: no-repeat fixed center;
+  min-height: 60vh;
+} */
+
+.services {
+  background-color: green;
+  color: blue;
+};
+
+.bios {
+  background-color: purple;
+}
