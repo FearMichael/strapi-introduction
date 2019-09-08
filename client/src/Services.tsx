@@ -1,23 +1,49 @@
 import React from 'react';
-import { Grid, Paper, CardMedia, Typography } from '@material-ui/core';
+import { Grid, Paper, CardMedia, Typography, Box, makeStyles, createStyles } from '@material-ui/core';
 
-interface ServiceProps {
-    serviceTitle: String,
-    serviceImage: String,
-    serviceBody: String
+type ServiceProps = {
+    serviceTitle: string,
+    serviceImage: string,
+    serviceBody: string
 };
 
-const Services: React.FC = (props: ServiceProps) => {
+const useStyles = makeStyles(() =>
+    createStyles({
+        serviceBody: {
+            padding: "1rem"
+        }
+    }),
+);
+
+
+const Services: React.FC<ServiceProps> = (props) => {
+
+    const classes = useStyles();
+
     return (
-        <Paper>
-            <Typography
-                align="center"
-            >
-                {props.serviceTitle}
-            </Typography>
+        <Box>
             <Grid
                 container
             >
+                <Grid
+                    item
+                    sm={12}
+                    md={4}
+                >
+                </Grid>
+                <Grid
+                    item
+                    sm={12}
+                    md={8}
+                >
+                    <Typography
+                        align="center"
+                        variant="h6"
+                    >
+                        {props.serviceTitle}
+                    </Typography>
+                </Grid>
+
                 <Grid item sm={12} md={4}>
                     <CardMedia
                         component="img"
@@ -27,12 +53,13 @@ const Services: React.FC = (props: ServiceProps) => {
                 <Grid item sm={12} md={8}>
                     <Typography
                         variant="body1"
+                        className={classes.serviceBody}
                     >
                         {props.serviceBody}
                     </Typography>
                 </Grid>
             </Grid>
-        </Paper>
+        </Box>
     )
 }
 

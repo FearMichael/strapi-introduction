@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Box, Typography, Grid, Paper, makeStyles, createStyles, Container } from "@material-ui/core";
 
-interface Services { serviceDescription: String, nameOfService: String };
+import Services from "./Services";
+import Testimonials from "./Testimonials";
+
+interface Services { serviceDescription: string, nameOfService: string, serviceImage: any };
 interface ServicesType extends Array<Services> { };
 interface RawData { json: () => any };
-interface Bio { nameOfEmployee: String, bioInformation: String };
+interface Bio { nameOfEmployee: string, bioInformation: string };
 interface Bios extends Array<Bio> { };
 
 const useStyles = makeStyles(() =>
@@ -18,7 +21,6 @@ const useStyles = makeStyles(() =>
       padding: "0 1rem"
     },
     siteHeader: {
-      // background: "no-repeat center center cover fixed",
       position: "relative",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center center",
@@ -65,35 +67,54 @@ const App: React.FC = () => {
         </Typography>
       </Box>
       <Grid
-        container
         className={classes.mainContent}
-        spacing={2}
       // justify="space-evenly"
       >
         {services && services.map((service: Services, i: Number) => {
-          return <Grid item md={6} key={i.toString()}>
-            <Paper
-              className={classes.paper}
-              component="div"
-              square={true}
-            >
-              <h3> {service.nameOfService} </h3>
-              <p>{service.serviceDescription}</p>
-            </Paper>
-          </Grid>
+          return (
+            <Services key={i.toString()}
+              serviceTitle={service.nameOfService}
+              serviceBody={service.serviceDescription}
+              serviceImage={service.serviceImage.url}
+            />
+          )
+          // <Grid item md={6} key={i.toString()}>
+          //   <Paper
+          //     className={classes.paper}
+          //     component="div"
+          //     square={true}
+          //   >
+          //     <h3> {service.nameOfService} </h3>
+          //     <p>{service.serviceDescription}</p>
+          //   </Paper>
+          // </Grid>
         })
         }
         {bios && bios.map((bio: Bio, i: Number) => {
-          return <Grid item md={6} key={i.toString()}  >
-            <Paper
-              className={classes.paper}
-              component="div"
-              square={true}
-            >
-              <h3>{bio.nameOfEmployee}</h3>
-              <p>{bio.bioInformation}</p>
-            </Paper>
-          </Grid>
+          return (
+            // <Grid
+            //   key={i.toString()}
+            //   item
+            //   sm={6}
+            //   md={4}
+            // >
+            <Testimonials
+              key={i.toString()}
+              testimonialAuthor={bio.nameOfEmployee}
+              testimonialBody={bio.bioInformation}
+            />
+            // </Grid>
+          )
+          // <Grid item md={6} key={i.toString()}  >
+          //   <Paper
+          //     className={classes.paper}
+          //     component="div"
+          //     square={true}
+          //   >
+          //     <h3>{bio.nameOfEmployee}</h3>
+          //     <p>{bio.bioInformation}</p>
+          //   </Paper>
+          // </Grid>
         })
         }
 
