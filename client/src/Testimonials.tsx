@@ -38,9 +38,11 @@ const useStyles = makeStyles(() =>
             width: "100%",
         },
         quoteArea: {
-            width: "100%",
-            margin: "auto",
-            fontSize: "4rem"
+            textAlign: "right",
+        },
+        quoteIcon: {
+            fontSize: "4rem",
+            textAlign: "right"
         }
     }),
 );
@@ -52,16 +54,20 @@ const Testimonials: React.FC<ServiceProps> = (props) => {
 
     return (
 
-        <Grid container alignContent="center"
-            alignItems="center">
+        <Grid
+            container
+            justify="space-between"
+        // alignContent="center"
+        // alignItems="center"
+        >
             <Grid
                 item
                 sm={4}
-
+                className={classes.quoteArea}
             >
-                <div className={classes.quoteArea}>
-                    <FormatQuote></FormatQuote>
-                </div>
+                {/* <div className={classes.quoteArea}> */}
+                <FormatQuote className={classes.quoteIcon}></FormatQuote>
+                {/* </div> */}
             </Grid>
             <Grid
                 item

@@ -26,7 +26,25 @@ const useStyles = makeStyles(() =>
       backgroundPosition: "center center",
       backgroundSize: "cover",
       backgroundAttachment: "fixed",
-      minHeight: "60vh",
+      height: "100vh",
+    },
+    topHeader: {
+      height: "5vh",
+      zIndex: 3,
+    },
+    headerOverlay: {
+      background: "rgba(128,128,128,0.2)",
+      position: "absolute",
+      top: "0",
+      width: "100%",
+      height: "inherit",
+      zIndex: 1
+    },
+    tagline: {
+      margin: "20vh auto auto auto",
+      borderRadius: "0.25em",
+      padding: "1rem",
+      background: "rgba(128,128,255, 0.5)"
     }
   }),
 );
@@ -38,6 +56,7 @@ const App: React.FC = () => {
   const [services, updateServices] = useState<ServicesType | null>();
   const [bios, updateBios] = useState<Bios | null>();
   const [siteData, updateSiteData] = useState();
+  const [headerHeight, updateHeaderHeight] = useState();
 
   useEffect(() => {
     fetch("/services").then((rawData: RawData) => rawData.json()).then((serviceData: ServicesType) => {
@@ -54,16 +73,30 @@ const App: React.FC = () => {
   return (
     <>
       <Box
+        id="navHeader"
         display="flex"
         justifyContent="center"
         className={classes.siteHeader}
         style={siteData && { backgroundImage: `url(${siteData.companyHeaderImage.url})` }}
       >
-        <Typography
-          variant="h3"
+        <div className={classes.headerOverlay}>
+
+        </div>
+        <div
           className="siteTitle"
         >
-          {siteData && siteData.companyName}
+
+          <Typography
+            variant="h3"
+          >
+            {siteData && siteData.companyName}
+          </Typography>
+        </div>
+        <Typography
+          className={classes.tagline}
+          variant="h4"
+        >
+          {siteData && siteData.tagline ? siteData.tagline : "Your Company Info Here"}
         </Typography>
       </Box>
       <Grid
