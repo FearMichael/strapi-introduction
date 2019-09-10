@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import { Box, Typography, Grid, Paper, makeStyles, createStyles, Container } from "@material-ui/core";
+import { Box, Typography, Grid, Grow, makeStyles, createStyles, Container } from "@material-ui/core";
+import { useInView } from "react-intersection-observer";
 
 import Services from "./Services";
 import Testimonials from "./Testimonials";
@@ -51,6 +52,8 @@ const useStyles = makeStyles(() =>
 
 const App: React.FC = () => {
 
+  const [ref, inView] = useInView({ rootMargin: "-100px 0px" })
+
   const classes = useStyles();
 
   const [services, updateServices] = useState<ServicesType | null>();
@@ -86,18 +89,25 @@ const App: React.FC = () => {
           className="siteTitle"
         >
 
+
           <Typography
             variant="h3"
           >
             {siteData && siteData.companyName}
           </Typography>
         </div>
-        <Typography
-          className={classes.tagline}
-          variant="h4"
+        <Grow
+          ref={ref}
+          in={inView}
         >
-          {siteData && siteData.tagline ? siteData.tagline : "Your Company Info Here"}
-        </Typography>
+          <Typography
+            className={classes.tagline}
+            variant="h4"
+          >
+            {siteData && siteData.tagline ? siteData.tagline : "Your Company Info Here"}
+          </Typography>
+        </Grow>
+
       </Box>
       <Grid
         className={classes.mainContent}

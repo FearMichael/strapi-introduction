@@ -5229,7 +5229,7 @@ internal-ip@^4.2.0:
     default-gateway "^4.2.0"
     ipaddr.js "^1.9.0"
 
-invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.0.0, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -8507,6 +8507,14 @@ react-error-overlay@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.1.tgz#b8d3cf9bb991c02883225c48044cb3ee20413e0f"
   integrity sha512-V9yoTr6MeZXPPd4nV/05eCBvGH9cGzc52FN8fs0O0TVQ3HYYf1n7EgZVtHbldRq5xU9zEzoXIITjYNIfxDDdUw==
+
+react-intersection-observer@^8.24.2:
+  version "8.24.2"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.24.2.tgz#e4c2474aed39b0962fcde68ba3c12c3c05d28988"
+  integrity sha512-1l3eS/vZ3ScS6xawgeysl2z5hCtzJ2o4eYyQu4VdrbaahcWJccphPmZmQvFRsHA1tyKpMYV+KCrKfhuN5w8Erw==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    invariant "^2.0.0"
 
 react-is@^16.7.0, react-is@^16.8.4, react-is@^16.8.6:
   version "16.9.0"
