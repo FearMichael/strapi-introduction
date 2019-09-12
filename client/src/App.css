@@ -38,7 +38,8 @@
   width: 100%;
   padding: 0.5rem;
   text-align: center;
-  background: rgba(0,0,0,0.7)
+  background: rgba(0,0,0,0.7);
+  z-index: 10;
 };
 
 .headerOverlay {
@@ -53,3 +54,5 @@
 .bios {
   background-color: purple;
 }
+
+@import "./animations.min.css";

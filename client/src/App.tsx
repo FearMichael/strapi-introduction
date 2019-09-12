@@ -6,12 +6,13 @@ import { useInView } from "react-intersection-observer";
 
 import Services from "./Services";
 import Testimonials from "./Testimonials";
+import Footer from "./Footer";
 
 interface Services { serviceDescription: string, nameOfService: string, serviceImage: any };
 interface ServicesType extends Array<Services> { };
 interface RawData { json: () => any };
 interface Bio { nameOfEmployee: string, bioInformation: string };
-interface Bios extends Array<Bio> { };
+// interface Bios any
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -52,25 +53,46 @@ const useStyles = makeStyles(() =>
 
 const App: React.FC = () => {
 
+
+  let delayTime: any;
+  const [animated, setAnimated] = useState("");
+
+  const delayAnimation = () => {
+    delayTime = setTimeout(() => {
+      setAnimated("animated rubberBand");
+    }, 2 * 1000)
+  };
+
   const [ref, inView] = useInView({ rootMargin: "-100px 0px" })
 
   const classes = useStyles();
 
   const [services, updateServices] = useState<ServicesType | null>();
-  const [bios, updateBios] = useState<Bios | null>();
+  const [bios, updateBios] = useState<any>();
   const [siteData, updateSiteData] = useState();
   const [headerHeight, updateHeaderHeight] = useState();
 
   useEffect(() => {
+
+    delayAnimation();
+
     fetch("/services").then((rawData: RawData) => rawData.json()).then((serviceData: ServicesType) => {
       updateServices(serviceData);
       console.log(serviceData);
     })
-    fetch("/bios").then((rawData: RawData) => rawData.json()).then((bios: Bios) => updateBios(bios));
+    fetch("/bios").then((rawData: RawData) => rawData.json()).then((bios) => {
+      console.log(bios)
+      updateBios(bios)
+    });
     fetch("/companyinformations").then((rawData: RawData) => rawData.json()).then(companyData => {
       console.log(companyData[0]);
       updateSiteData(companyData[0]);
     });
+
+    return () => {
+      clearTimeout(delayTime);
+    }
+
   }, []);
 
   return (
@@ -88,8 +110,6 @@ const App: React.FC = () => {
         <div
           className="siteTitle"
         >
-
-
           <Typography
             variant="h3"
           >
@@ -101,7 +121,7 @@ const App: React.FC = () => {
           in={inView}
         >
           <Typography
-            className={classes.tagline}
+            className={`${classes.tagline} ${animated}`}
             variant="h4"
           >
             {siteData && siteData.tagline ? siteData.tagline : "Your Company Info Here"}
@@ -111,7 +131,6 @@ const App: React.FC = () => {
       </Box>
       <Grid
         className={classes.mainContent}
-      // justify="space-evenly"
       >
         {services && services.map((service: Services, i: Number) => {
           return (
@@ -121,47 +140,20 @@ const App: React.FC = () => {
               serviceImage={service.serviceImage.url}
             />
           )
-          // <Grid item md={6} key={i.toString()}>
-          //   <Paper
-          //     className={classes.paper}
-          //     component="div"
-          //     square={true}
-          //   >
-          //     <h3> {service.nameOfService} </h3>
-          //     <p>{service.serviceDescription}</p>
-          //   </Paper>
-          // </Grid>
         })
         }
-        {bios && bios.map((bio: Bio, i: Number) => {
-          return (
-            // <Grid
-            //   key={i.toString()}
-            //   item
-            //   sm={6}
-            //   md={4}
-            // >
-            <Testimonials
-              key={i.toString()}
-              testimonialAuthor={bio.nameOfEmployee}
-              testimonialBody={bio.bioInformation}
-            />
-            // </Grid>
-          )
-          // <Grid item md={6} key={i.toString()}  >
-          //   <Paper
-          //     className={classes.paper}
-          //     component="div"
-          //     square={true}
-          //   >
-          //     <h3>{bio.nameOfEmployee}</h3>
-          //     <p>{bio.bioInformation}</p>
-          //   </Paper>
-          // </Grid>
-        })
-        }
-
+        <Testimonials
+          bios={bios}
+        />
       </Grid>
+      {siteData &&
+        <Footer
+          companyName={siteData.companyName}
+          companyDescription={siteData.companyDescription}
+          companyAddress={siteData.companyLocation}
+          companyPhone={siteData.companyPhone}
+        />
+      }
     </>
   );
 }

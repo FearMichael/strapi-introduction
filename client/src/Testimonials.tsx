@@ -1,34 +1,20 @@
-import React from 'react';
-import { Grid, Grow, Typography, makeStyles, createStyles } from '@material-ui/core';
-import { FormatQuote } from "@material-ui/icons/"
+import React, { useState } from 'react';
+import { Box, Grow, Grid, Typography, makeStyles, createStyles, Paper } from '@material-ui/core';
+import { FormatQuote, NavigateBefore, NavigateNext } from "@material-ui/icons/"
 import { useInView } from "react-intersection-observer";
 
-type ServiceProps = {
-    testimonialAuthor: string,
-    // testimonialAuthor: string,
-    testimonialBody: string
+type TestimonialProps = {
+    bios: object[] | null
 };
 
 const useStyles = makeStyles(() =>
     createStyles({
         testimonialBody: {
             padding: "1rem",
-            // background: "url(./quoteFrame.png)",
-            // backgroundRepeat: "no-repeat",
-            // backgroundPosition: "center center",
-            // backgroundSize: "cover",
-            // backgroundAttachment: "fixed",
-            // minHeight: "4rem",
         },
-        imageBackground: {
-            // maxHeight: "15em",
-            // zIndex: 0,
-            // textAlign: "center",
-            // position: "relative",
-            // backgroundRepeat: "no-repeat",
-            // backgroundPosition: "center center",
-            // backgroundSize: "cover",
-            // backgroundAttachment: "fixed",
+        testimonialContainer: {
+            width: "80%",
+            padding: "1rem"
         },
         quoteInfo: {
             position: "absolute",
@@ -43,85 +29,103 @@ const useStyles = makeStyles(() =>
         },
         quoteIcon: {
             fontSize: "4rem",
-            textAlign: "right"
+            marginLeft: "25%"
+        },
+        boxMain: {
+            margin: "1rem auto",
+            padding: "1rem"
+        },
+        slideIcon: {
+            fontSize: "5rem",
         }
     }),
 );
 
 
-const Testimonials: React.FC<ServiceProps> = (props) => {
+const Testimonials: React.FC<any> = (props) => {
 
     const classes = useStyles();
 
+    const slides = props.bios;
+
+    console.log(props)
+
+    let [currentSlide, setCurrentSlide] = useState<number>(0);
+
     const [ref, inView] = useInView({ rootMargin: "-100px 0px" });
+
+    const changeSlide = (direction: string) => {
+        let nextSlide;
+        if (slides && direction === "next") {
+            slides.length - 1 === currentSlide ? nextSlide = 0 : nextSlide = currentSlide + 1;
+            setCurrentSlide(nextSlide);
+        } else if (slides && direction === "back") {
+            currentSlide === 0 ? nextSlide = slides.length - 1 : nextSlide = currentSlide - 1;
+            setCurrentSlide(nextSlide);
+        }
+        console.log(nextSlide)
+
+    }
 
     return (
         <Grow
             ref={ref}
             in={inView}
         >
-
-            <Grid
-                container
-                justify="space-between"
-            // alignContent="center"
-            // alignItems="center"
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                className={classes.boxMain}
             >
-                <Grid
-                    item
-                    sm={4}
-                    className={classes.quoteArea}
+                <NavigateBefore
+                    className={classes.slideIcon}
+                    onClick={() => changeSlide("back")}
+                />
+                <Paper
+                    elevation={3}
+                    className={classes.testimonialContainer}
                 >
-                    {/* <div className={classes.quoteArea}> */}
-                    <FormatQuote className={classes.quoteIcon}></FormatQuote>
-                    {/* </div> */}
-                </Grid>
-                <Grid
-                    item
-                    sm={8}
-                >
-                    <Typography
-                        align="center"
-                        variant="body1"
-                        className={classes.testimonialBody}
+                    <Grid
+                        container
+                        alignContent="center"
+                        alignItems="center"
                     >
-                        {props.testimonialBody}
-                    </Typography>
-                    <Typography
-                        align="center"
-                        variant="body2"
-                    >
-                        - {props.testimonialAuthor}
-                    </Typography>
-                </Grid>
+                        <Grid
+                            item
+                            sm={4}
+                        >
 
-            </Grid>
+                            <FormatQuote className={classes.quoteIcon}></FormatQuote>
+                        </Grid>
+                        <Grid
+                            item
+                            sm={8}
+                        >
+                            <Typography
+                                align="center"
+                                variant="body1"
+                                className={classes.testimonialBody}
+                            >
+                                {slides && slides[currentSlide].bioInformation}
+                            </Typography>
+                            <Typography
+                                align="center"
+                                variant="body2"
+                            >
+                                - {slides && slides[currentSlide].nameOfEmployee}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+
+                </Paper>
+                <NavigateNext
+                    className={classes.slideIcon}
+                    onClick={() => changeSlide("next")}
+
+                />
+            </Box>
         </Grow>
-
-        // <Box
-        //     display="flex"
-        //     position="relative"
-        //     className={classes.imageContainer}
-        // >
-        //     <CardMedia component="img" src="./quoteFrame.png" className={classes.imageBackground} />
-        //     <div className={classes.quoteInfo}>
-        //         <Typography
-        //             align="center"
-        //             variant="body1"
-        //             className={classes.testimonialBody}
-        //         >
-        //             {props.testimonialBody}
-        //         </Typography>
-
-        //         <Typography
-        //             align="center"
-        //             variant="body2"
-        //         >
-        //             - {props.testimonialAuthor}
-        //         </Typography>
-        //     </div>
-
-        // </Box>
     )
 }
 
