@@ -1,5 +1,5 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
 interface FooterData {
@@ -14,27 +14,48 @@ const Footer: React.FC<FooterData> = ({ companyName, companyAddress, companyPhon
     const year = new Date;
 
     return (
-        <footer>
-            <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+        <Grid
+            container
+            alignContent="center"
+            alignItems="center"
+        // className={}
+        >
+            <Grid
+                item
+                sm={12}
             >
                 <Typography variant="h5">
                     {companyName} &copy; {year.getFullYear()}
                 </Typography>
+            </Grid>
+            <Grid
+                item
+                sm={12}
+            >
                 <Typography variant="body1">
                     {companyDescription}
                 </Typography>
+            </Grid>
+            <Grid
+                item
+                sm={12}
+
+            >
                 <Typography variant="body2">
                     {companyAddress}
                 </Typography>
+            </Grid>
+            <Grid
+                item
+                sm={12}
+
+            >
                 <Typography variant="body2">
                     {companyPhone}
                 </Typography>
+            </Grid>
 
-            </Box>
-        </footer>
+        </Grid>
     )
 };
 

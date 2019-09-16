@@ -3,6 +3,12 @@ import { Box, Grow, Grid, Typography, makeStyles, createStyles, Paper } from '@m
 import { FormatQuote, NavigateBefore, NavigateNext } from "@material-ui/icons/"
 import { useInView } from "react-intersection-observer";
 
+// declare global {
+//     interface Window {
+
+//     }
+// }
+
 type TestimonialProps = {
     bios: object[] | null
 };
@@ -13,8 +19,13 @@ const useStyles = makeStyles(() =>
             padding: "1rem",
         },
         testimonialContainer: {
-            width: "80%",
-            padding: "1rem"
+            width: "100%",
+            padding: "1rem",
+            // margin: "0px"
+        },
+        narrowBox: {
+            width: "60%",
+            padding: "1rem",
         },
         quoteInfo: {
             position: "absolute",
@@ -32,22 +43,32 @@ const useStyles = makeStyles(() =>
             marginLeft: "25%"
         },
         boxMain: {
-            margin: "1rem auto",
-            padding: "1rem"
+            margin: "1rem -0.25rem",
+            padding: "1rem 0rem",
         },
         slideIcon: {
             fontSize: "5rem",
+        },
+        smallScreenIcon: {
+            fontSize: "5rem",
+            margin: "0rem -1rem"
         }
     }),
 );
 
 
+
+
 const Testimonials: React.FC<any> = (props) => {
+    console.log(window.innerWidth)
 
     const classes = useStyles();
 
     const slides = props.bios;
 
+    const [width, setWidth] = useState<number>(window.innerWidth)
+
+    window.addEventListener<any>("resize", () => setWidth(window.innerWidth));
     console.log(props)
 
     let [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -65,7 +86,8 @@ const Testimonials: React.FC<any> = (props) => {
         }
         console.log(nextSlide)
 
-    }
+    };
+
 
     return (
         <Grow
@@ -79,7 +101,7 @@ const Testimonials: React.FC<any> = (props) => {
                 className={classes.boxMain}
             >
                 <NavigateBefore
-                    className={classes.slideIcon}
+                    className={width < 960 ? classes.smallScreenIcon : classes.slideIcon}
                     onClick={() => changeSlide("back")}
                 />
                 <Paper
@@ -120,9 +142,8 @@ const Testimonials: React.FC<any> = (props) => {
 
                 </Paper>
                 <NavigateNext
-                    className={classes.slideIcon}
+                    className={width < 960 ? classes.smallScreenIcon : classes.slideIcon}
                     onClick={() => changeSlide("next")}
-
                 />
             </Box>
         </Grow>
